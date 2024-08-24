@@ -75,3 +75,10 @@ button {
   margin-top: 10px;
   display: none; /* Oculto por defecto */
 }
+
+.pending-count {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }

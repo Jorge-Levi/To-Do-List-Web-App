@@ -1,17 +1,18 @@
 // Variables
-const taskInput = document.getElementById("task-input");
-const addTaskBtn = document.getElementById("add-task-btn");
-const taskList = document.getElementById("task-list");
-const errorMessage = document.getElementById("error-message");
+const taskInput = document.getElementById('task-input');
+const addTaskBtn = document.getElementById('add-task-btn');
+const taskList = document.getElementById('task-list');
+const errorMessage = document.getElementById('error-message');
+const pendingCount = document.getElementById('pending-count');
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 // Funciones
 function renderTasks() {
-  taskList.innerHTML = "";
+  taskList.innerHTML = '';
   tasks.forEach((task, index) => {
-    const li = document.createElement("li");
-    li.className = `task-item ${task.completed ? "completed" : ""}`;
+    const li = document.createElement('li');
+    li.className = `task-item ${task.completed ? 'completed' : ''}`;
     li.innerHTML = `
       <span>${task.name}</span>
       <div>
@@ -22,28 +23,27 @@ function renderTasks() {
     `;
     taskList.appendChild(li);
   });
+  updatePendingCount(); // Actualizar contador al renderizar
 }
 
 function addTask() {
   const taskName = taskInput.value.trim();
 
   // Validaciones
-  if (taskName === "") {
-    showError("El campo de tarea no puede estar vacío.");
+  if (taskName === '') {
+    showError('El campo de tarea no puede estar vacío.');
     return;
   }
 
-  if (
-    tasks.some((task) => task.name.toLowerCase() === taskName.toLowerCase())
-  ) {
-    showError("Esta tarea ya existe.");
+  if (tasks.some(task => task.name.toLowerCase() === taskName.toLowerCase())) {
+    showError('Esta tarea ya existe.');
     return;
   }
 
   tasks.push({ name: taskName, completed: false });
   updateTasks();
   clearError(); // Limpiar cualquier mensaje de error anterior
-  taskInput.value = ""; // Limpiar el campo de entrada
+  taskInput.value = ''; // Limpiar el campo de entrada
 }
 
 function toggleTask(index) {
@@ -52,7 +52,7 @@ function toggleTask(index) {
 }
 
 function editTask(index) {
-  const newTaskName = prompt("Editar tarea:", tasks[index].name);
+  const newTaskName = prompt('Editar tarea:', tasks[index].name);
   if (newTaskName !== null) {
     tasks[index].name = newTaskName.trim();
     updateTasks();
@@ -65,24 +65,29 @@ function deleteTask(index) {
 }
 
 function updateTasks() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem('tasks', JSON.stringify(tasks));
   renderTasks();
+}
+
+function updatePendingCount() {
+  const pendingTasks = tasks.filter(task => !task.completed).length;
+  pendingCount.textContent = `Tareas pendientes: ${pendingTasks}`;
 }
 
 function showError(message) {
   errorMessage.textContent = message;
-  errorMessage.style.display = "block";
+  errorMessage.style.display = 'block';
 }
 
 function clearError() {
-  errorMessage.textContent = "";
-  errorMessage.style.display = "none";
+  errorMessage.textContent = '';
+  errorMessage.style.display = 'none';
 }
 
 // Eventos
-addTaskBtn.addEventListener("click", addTask);
-taskInput.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") {
+addTaskBtn.addEventListener('click', addTask);
+taskInput.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
     addTask();
   }
 });
