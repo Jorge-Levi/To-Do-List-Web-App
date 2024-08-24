@@ -4,6 +4,8 @@ const addTaskBtn = document.getElementById('add-task-btn');
 const taskList = document.getElementById('task-list');
 const errorMessage = document.getElementById('error-message');
 const pendingCount = document.getElementById('pending-count');
+const completeAllBtn = document.getElementById('complete-all-btn');
+const deleteAllBtn = document.getElementById('delete-all-btn');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
@@ -84,6 +86,17 @@ function clearError() {
   errorMessage.style.display = 'none';
 }
 
+// Nuevas funciones para manejar acciones en todas las tareas
+function completeAllTasks() {
+  tasks = tasks.map(task => ({ ...task, completed: true }));
+  updateTasks();
+}
+
+function deleteAllTasks() {
+  tasks = [];
+  updateTasks();
+}
+
 // Eventos
 addTaskBtn.addEventListener('click', addTask);
 taskInput.addEventListener('keypress', function (e) {
@@ -91,6 +104,9 @@ taskInput.addEventListener('keypress', function (e) {
     addTask();
   }
 });
+
+completeAllBtn.addEventListener('click', completeAllTasks);
+deleteAllBtn.addEventListener('click', deleteAllTasks);
 
 // Inicializar
 renderTasks();
