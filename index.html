@@ -1,43 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To-Do List</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1>To-Do List</h1>
-      <button id="toggle-dark-mode" class="dark-mode-btn">Modo Oscuro</button>
-      <p id="pending-count" class="pending-count">Tareas pendientes: 0</p>
-      <div class="input-container">
-        <input
-          type="text"
-          id="task-input"
-          placeholder="Agregar nueva tarea..."
-        />
-        <button id="add-task-btn">Agregar</button>
-      </div>
-      <p id="error-message" class="error-message"></p>
-      <div class="actions-container">
-        <button id="complete-all-btn">Marcar todas como completadas</button>
-        <button id="delete-all-btn">Eliminar todas las tareas</button>
-      </div>
-      <div class="filter-container">
-        <button id="filter-all" class="filter-btn active">Todas</button>
-        <button id="filter-pending" class="filter-btn">Pendientes</button>
-        <button id="filter-completed" class="filter-btn">Completadas</button>
-      </div>
-      <div class="sort-container">
-        <label for="sort-tasks">Ordenar por:</label>
-        <select id="sort-tasks">
-          <option value="name">Nombre</option>
-          <option value="status">Estado</option>
-        </select>
-      </div>
-      <ul id="task-list"></ul>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <button id="toggle-dark-mode" class="dark-mode-btn">Modo Oscuro</button>
+    <p id="pending-count" class="pending-count">Tareas pendientes: 0</p>
+    <p id="completed-count" class="completed-count">Tareas completadas: 0</p>
+    <div class="input-container">
+      <input type="text" id="task-input" placeholder="Agregar nueva tarea..." />
+      <button id="add-task-btn">Agregar</button>
     </div>
-    <script src="script.js"></script>
-  </body>
+    <p id="error-message" class="error-message"></p>
+    <div class="actions-container">
+      <button id="complete-all-btn">Marcar todas como completadas</button>
+      <button id="delete-all-btn">Eliminar todas las tareas</button>
+    </div>
+    <div class="filter-container">
+      <button id="filter-all" class="filter-btn active">Todas</button>
+      <button id="filter-pending" class="filter-btn">Pendientes</button>
+      <button id="filter-completed" class="filter-btn">Completadas</button>
+    </div>
+    <div class="sort-container">
+      <label for="sort-tasks">Ordenar por:</label>
+      <select id="sort-tasks">
+        <option value="name">Nombre</option>
+        <option value="status">Estado</option>
+      </select>
+    </div>
+    <ul id="task-list"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
 </html>

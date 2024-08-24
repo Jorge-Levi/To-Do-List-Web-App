@@ -4,6 +4,7 @@ const addTaskBtn = document.getElementById("add-task-btn");
 const taskList = document.getElementById("task-list");
 const errorMessage = document.getElementById("error-message");
 const pendingCount = document.getElementById("pending-count");
+const completedCount = document.getElementById("completed-count"); // Nueva variable
 const completeAllBtn = document.getElementById("complete-all-btn");
 const deleteAllBtn = document.getElementById("delete-all-btn");
 
@@ -27,6 +28,9 @@ if (isDarkMode) {
   toggleDarkModeBtn.textContent = "Modo Claro";
 }
 
+// Temporizador para ocultar errores
+let errorTimeout;
+
 // Funciones
 function renderTasks() {
   console.log("Rendering tasks...");
@@ -48,7 +52,7 @@ function renderTasks() {
     taskList.appendChild(li);
   });
 
-  updatePendingCount();
+  updateCounts(); // Actualiza ambos contadores
 }
 
 function getFilteredTasks() {
@@ -79,7 +83,9 @@ function addTask() {
     return;
   }
 
-  if (tasks.some((task) => task.name.toLowerCase() === taskName.toLowerCase())) {
+  if (
+    tasks.some((task) => task.name.toLowerCase() === taskName.toLowerCase())
+  ) {
     showError("Esta tarea ya existe.");
     return;
   }
@@ -117,14 +123,23 @@ function updateTasks() {
   renderTasks();
 }
 
-function updatePendingCount() {
+function updateCounts() {
   const pendingTasks = tasks.filter((task) => !task.completed).length;
+  const completedTasks = tasks.filter((task) => task.completed).length;
+
   pendingCount.textContent = `Tareas pendientes: ${pendingTasks}`;
+  completedCount.textContent = `Tareas completadas: ${completedTasks}`;
 }
 
 function showError(message) {
+  clearTimeout(errorTimeout); // Limpiar cualquier temporizador previo
   errorMessage.textContent = message;
   errorMessage.style.display = "block";
+
+  // Ocultar el mensaje de error después de 3 segundos
+  errorTimeout = setTimeout(() => {
+    clearError();
+  }, 3000);
 }
 
 function clearError() {
@@ -162,10 +177,19 @@ completeAllBtn.addEventListener("click", () => {
   updateTasks();
 });
 
+// Nueva función para manejar la eliminación de todas las tareas con confirmación
 deleteAllBtn.addEventListener("click", () => {
-  tasks = [];
-  updateTasks();
+  const confirmation = confirm(
+    "¿Estás seguro de que deseas eliminar todas las tareas?"
+  );
+  if (confirmation) {
+    tasks = [];
+    updateTasks();
+  }
 });
+
+// Ocultar el mensaje de error cuando el usuario comience a escribir
+taskInput.addEventListener("input", clearError);
 
 // Inicializar
 addTaskBtn.addEventListener("click", addTask);
