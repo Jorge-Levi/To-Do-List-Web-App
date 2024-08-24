@@ -23,6 +23,20 @@
         <button id="complete-all-btn">Marcar todas como completadas</button>
         <button id="delete-all-btn">Eliminar todas las tareas</button>
       </div>
+      <!-- Filtros -->
+      <div class="filter-container">
+        <button id="filter-all" class="filter-btn active">Todas</button>
+        <button id="filter-pending" class="filter-btn">Pendientes</button>
+        <button id="filter-completed" class="filter-btn">Completadas</button>
+      </div>
+      <!-- Ordenar tareas -->
+      <div class="sort-container">
+        <label for="sort-tasks">Ordenar por:</label>
+        <select id="sort-tasks">
+          <option value="name">Nombre</option>
+          <option value="status">Estado (Completadas/Pendientes)</option>
+        </select>
+      </div>
       <ul id="task-list"></ul>
     </div>
     <script src="script.js"></script>
