@@ -1,3 +1,4 @@
+/* Definición de variables CSS para colores */
 :root {
   --primary-color: #007bff;
   --secondary-color: #28a745;
@@ -10,6 +11,7 @@
   --input-bg-color-dark: #333;
 }
 
+/* Estilos generales del cuerpo */
 body {
   font-family: Arial, sans-serif;
   display: flex;
@@ -21,6 +23,7 @@ body {
   transition: background-color 0.3s ease;
 }
 
+/* Estilos para el contenedor principal */
 .container {
   background-color: var(--input-bg-color-light);
   padding: 20px;
@@ -32,17 +35,20 @@ body {
   transition: background-color 0.3s ease;
 }
 
+/* Estilos para el título */
 h1 {
   margin-bottom: 20px;
   font-size: 1.8rem;
 }
 
+/* Estilos para el contenedor de entrada de tareas */
 .input-container {
   display: flex;
   justify-content: space-between;
   gap: 10px;
 }
 
+/* Estilos para el campo de entrada */
 #task-input {
   flex: 1;
   padding: 10px;
@@ -53,6 +59,7 @@ h1 {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Estilos para el botón de agregar tarea */
 #add-task-btn {
   padding: 10px;
   background-color: var(--secondary-color);
@@ -63,6 +70,7 @@ h1 {
   flex-shrink: 0;
 }
 
+/* Estilos para la lista de tareas */
 #task-list {
   list-style: none;
   padding: 0;
@@ -70,6 +78,7 @@ h1 {
   text-align: left;
 }
 
+/* Estilos para cada tarea */
 .task-item {
   display: flex;
   justify-content: space-between;
@@ -78,11 +87,13 @@ h1 {
   transition: color 0.3s ease;
 }
 
+/* Estilos para las tareas completadas */
 .task-item.completed {
   text-decoration: line-through;
   color: #888;
 }
 
+/* Estilos generales para los botones */
 button {
   background-color: var(--danger-color);
   color: white;
@@ -92,6 +103,7 @@ button {
   cursor: pointer;
 }
 
+/* Estilos para el mensaje de error */
 .error-message {
   color: var(--danger-color);
   font-size: 14px;
@@ -99,30 +111,25 @@ button {
   display: none;
 }
 
-.pending-count {
+/* Estilos para los contadores de tareas */
+.pending-count,
+.completed-count {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.actions-container {
+/* Estilos para los contenedores de acciones, filtros y ordenamiento */
+.actions-container,
+.filter-container,
+.sort-container {
   margin-top: 15px;
   display: flex;
   justify-content: space-between;
   gap: 10px;
 }
 
-.actions-container button {
-  flex: 1;
-}
-
-.filter-container {
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
+/* Estilos para los botones de filtro */
 .filter-btn {
   flex: 1;
   padding: 8px 16px;
@@ -138,30 +145,18 @@ button {
   color: white;
 }
 
-.sort-container {
-  margin-top: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-#sort-tasks {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-/* Modo oscuro */
+/* Estilos para el modo oscuro */
 body.dark-mode {
   background-color: var(--background-color-dark);
   color: var(--text-color-dark);
 }
 
+/* Estilos para el contenedor en modo oscuro */
 body.dark-mode .container {
   background-color: var(--input-bg-color-dark);
 }
 
+/* Estilos para los elementos en modo oscuro */
 body.dark-mode input,
 body.dark-mode select,
 body.dark-mode button {
@@ -170,6 +165,7 @@ body.dark-mode button {
   border: 1px solid #555;
 }
 
+/* Estilos adicionales para el modo oscuro */
 body.dark-mode .filter-btn,
 body.dark-mode .sort-container label {
   color: var(--text-color-dark);
@@ -189,7 +185,7 @@ body.dark-mode .dark-mode-btn {
   border: 1px solid var(--primary-color);
 }
 
-/* Responsive */
+/* Estilos para pantallas pequeñas */
 @media (max-width: 600px) {
   h1 {
     font-size: 1.5rem;
@@ -208,10 +204,3 @@ body.dark-mode .dark-mode-btn {
     width: 100%;
   }
 }
-
-.completed-count {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-

@@ -9,23 +9,37 @@
 <body>
   <div class="container">
     <h1>To-Do List</h1>
+    
+    <!-- Botón para alternar entre el modo claro y oscuro -->
     <button id="toggle-dark-mode" class="dark-mode-btn">Modo Oscuro</button>
+    
+    <!-- Contadores de tareas pendientes y completadas -->
     <p id="pending-count" class="pending-count">Tareas pendientes: 0</p>
     <p id="completed-count" class="completed-count">Tareas completadas: 0</p>
+    
+    <!-- Entrada de texto para agregar nuevas tareas -->
     <div class="input-container">
       <input type="text" id="task-input" placeholder="Agregar nueva tarea..." />
       <button id="add-task-btn">Agregar</button>
     </div>
+    
+    <!-- Mensaje de error para entrada inválida -->
     <p id="error-message" class="error-message"></p>
+    
+    <!-- Botones para completar y eliminar todas las tareas -->
     <div class="actions-container">
       <button id="complete-all-btn">Marcar todas como completadas</button>
       <button id="delete-all-btn">Eliminar todas las tareas</button>
     </div>
+    
+    <!-- Filtros para ver todas, solo pendientes o solo completadas -->
     <div class="filter-container">
       <button id="filter-all" class="filter-btn active">Todas</button>
       <button id="filter-pending" class="filter-btn">Pendientes</button>
       <button id="filter-completed" class="filter-btn">Completadas</button>
     </div>
+    
+    <!-- Selector para ordenar tareas por nombre o estado -->
     <div class="sort-container">
       <label for="sort-tasks">Ordenar por:</label>
       <select id="sort-tasks">
@@ -33,8 +47,12 @@
         <option value="status">Estado</option>
       </select>
     </div>
+    
+    <!-- Lista donde se mostrarán las tareas -->
     <ul id="task-list"></ul>
   </div>
+  
+  <!-- Enlace al archivo JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>

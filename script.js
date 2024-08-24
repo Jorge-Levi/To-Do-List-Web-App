@@ -4,19 +4,18 @@ const addTaskBtn = document.getElementById("add-task-btn");
 const taskList = document.getElementById("task-list");
 const errorMessage = document.getElementById("error-message");
 const pendingCount = document.getElementById("pending-count");
-const completedCount = document.getElementById("completed-count"); // Nueva variable
+const completedCount = document.getElementById("completed-count");
 const completeAllBtn = document.getElementById("complete-all-btn");
 const deleteAllBtn = document.getElementById("delete-all-btn");
 
-// Filtros
+// Filtros y ordenamiento
 const filterButtons = document.querySelectorAll(".filter-btn");
-
-// Ordenar
 const sortTasksSelect = document.getElementById("sort-tasks");
 
 // Modo oscuro
 const toggleDarkModeBtn = document.getElementById("toggle-dark-mode");
 
+// Estado de la aplicación
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 let currentSort = "name";
@@ -28,16 +27,16 @@ if (isDarkMode) {
   toggleDarkModeBtn.textContent = "Modo Claro";
 }
 
-// Temporizador para ocultar errores
-let errorTimeout;
-
 // Funciones
 function renderTasks() {
-  console.log("Rendering tasks...");
-  taskList.innerHTML = "";
+  // Filtrar y ordenar tareas
   const filteredTasks = getFilteredTasks();
   const sortedTasks = sortTasks(filteredTasks);
 
+  // Limpiar la lista de tareas
+  taskList.innerHTML = "";
+
+  // Renderizar cada tarea
   sortedTasks.forEach((task, index) => {
     const li = document.createElement("li");
     li.className = `task-item ${task.completed ? "completed" : ""}`;
@@ -52,7 +51,7 @@ function renderTasks() {
     taskList.appendChild(li);
   });
 
-  updateCounts(); // Actualiza ambos contadores
+  updateCounts(); // Actualizar contadores de tareas
 }
 
 function getFilteredTasks() {
@@ -75,14 +74,14 @@ function sortTasks(taskArray) {
 
 function addTask() {
   const taskName = taskInput.value.trim();
-  console.log("Adding task:", taskName);
 
-  // Validaciones
+  // Validación de entrada
   if (taskName === "") {
     showError("El campo de tarea no puede estar vacío.");
     return;
   }
 
+  // Verificar duplicados
   if (
     tasks.some((task) => task.name.toLowerCase() === taskName.toLowerCase())
   ) {
@@ -90,11 +89,11 @@ function addTask() {
     return;
   }
 
-  // Agregar la nueva tarea
+  // Agregar la tarea
   tasks.push({ name: taskName, completed: false });
   updateTasks();
 
-  // Limpiar el campo de entrada y mensajes de error
+  // Limpiar la entrada
   taskInput.value = "";
   clearError();
 }
@@ -118,7 +117,6 @@ function deleteTask(index) {
 }
 
 function updateTasks() {
-  console.log("Updating tasks...");
   localStorage.setItem("tasks", JSON.stringify(tasks));
   renderTasks();
 }
@@ -132,14 +130,9 @@ function updateCounts() {
 }
 
 function showError(message) {
-  clearTimeout(errorTimeout); // Limpiar cualquier temporizador previo
   errorMessage.textContent = message;
   errorMessage.style.display = "block";
-
-  // Ocultar el mensaje de error después de 3 segundos
-  errorTimeout = setTimeout(() => {
-    clearError();
-  }, 3000);
+  setTimeout(clearError, 3000);
 }
 
 function clearError() {
@@ -147,7 +140,7 @@ function clearError() {
   errorMessage.style.display = "none";
 }
 
-// Manejo de filtros
+// Eventos para filtros y ordenamiento
 filterButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     currentFilter = btn.id.replace("filter-", "");
@@ -157,7 +150,6 @@ filterButtons.forEach((btn) => {
   });
 });
 
-// Manejo de ordenamiento
 sortTasksSelect.addEventListener("change", (e) => {
   currentSort = e.target.value;
   renderTasks();
@@ -171,13 +163,12 @@ toggleDarkModeBtn.addEventListener("click", () => {
   localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
 });
 
-// Nuevas funciones para manejar acciones en todas las tareas
+// Manejo de acciones en todas las tareas
 completeAllBtn.addEventListener("click", () => {
   tasks.forEach((task) => (task.completed = true));
   updateTasks();
 });
 
-// Nueva función para manejar la eliminación de todas las tareas con confirmación
 deleteAllBtn.addEventListener("click", () => {
   const confirmation = confirm(
     "¿Estás seguro de que deseas eliminar todas las tareas?"
@@ -188,12 +179,9 @@ deleteAllBtn.addEventListener("click", () => {
   }
 });
 
-// Ocultar el mensaje de error cuando el usuario comience a escribir
-taskInput.addEventListener("input", clearError);
-
-// Inicializar
+// Iniciar la aplicación
 addTaskBtn.addEventListener("click", addTask);
-taskInput.addEventListener("keypress", function (e) {
+taskInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     addTask();
   }
