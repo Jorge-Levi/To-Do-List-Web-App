@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useMemo } from "react"; // Asegúrate de 
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
-import { taskReducer, initialState } from "./reducers/taskReducer";
+import { taskReducer, initialState } from "./store/reducers/taskReducer";
 
 export default function App() {
   const [state, dispatch] = useReducer(taskReducer, initialState);
