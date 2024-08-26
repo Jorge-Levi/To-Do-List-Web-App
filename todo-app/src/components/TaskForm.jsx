@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 
-export default function TaskForm({ tasks, addTask }) {
+export default function TaskForm({ addTask, tasks }) {
   const [taskName, setTaskName] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskName.trim()) {
-      if (tasks.some(task => task.name.toLowerCase() === taskName.toLowerCase())) {
+      if (
+        tasks.some((task) => task.name.toLowerCase() === taskName.toLowerCase())
+      ) {
         setError("La tarea ya existe.");
       } else {
         addTask(taskName);
         setTaskName("");
-        setError(""); // Limpia el mensaje de error
+        setError("");
       }
     } else {
       setError("El nombre de la tarea no puede estar vacío");
@@ -31,7 +33,7 @@ export default function TaskForm({ tasks, addTask }) {
         />
         <button
           type="submit"
-          className="p-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
+          className="p-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Agregar
         </button>
