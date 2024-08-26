@@ -31,7 +31,7 @@ export default function App() {
     setTasks(newTasks);
   };
 
-  const filteredTasks = tasks.filter(task => 
+  const filteredTasks = tasks.filter((task) => 
     filter === "all" ? true : filter === "completed" ? task.completed : !task.completed
   );
 
@@ -41,9 +41,9 @@ export default function App() {
   });
 
   return (
-    <div className="container mx-auto p-6 max-w-lg bg-white rounded-lg shadow-lg">
-      <h1 className="text-4xl font-semibold text-gray-800 mb-6">To-Do List</h1>
-      <TaskForm addTask={addTask} />
+    <div className="container max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg">
+      <h1 className="mb-6 text-4xl font-semibold text-gray-800">To-Do List</h1>
+      <TaskForm tasks={tasks} addTask={addTask} />
       <Filters filter={filter} setFilter={setFilter} sort={sort} setSort={setSort} />
       <TaskList tasks={sortedTasks} toggleTask={toggleTask} deleteTask={deleteTask} />
     </div>
