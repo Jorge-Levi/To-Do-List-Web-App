@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useMemo } from "react";
+import React, { useReducer, useEffect, useMemo, useCallback } from "react";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
@@ -24,10 +24,6 @@ export default function App() {
       }
     } catch (error) {
       console.error("Error loading tasks from localStorage:", error);
-      dispatch({
-        type: "CLEAR_FEEDBACK",
-        payload: "No se pudieron cargar las tareas. Verifica tu almacenamiento local.",
-      });
     }
   }, []);
 
@@ -36,9 +32,6 @@ export default function App() {
       localStorage.setItem("tasks", JSON.stringify(state.tasks));
     } catch (error) {
       console.error("Error saving tasks to localStorage:", error);
-      dispatch({
-        type: "CLEAR_FEEDBACK",
-      });
     }
   }, [state.tasks]);
 
@@ -50,6 +43,28 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [state.feedbackMessage]);
+
+  // useCallback para funciones
+  const addTask = useCallback(
+    (taskName) => {
+      dispatch({ type: ADD_TASK, payload: taskName });
+    },
+    [dispatch]
+  );
+
+  const toggleTask = useCallback(
+    (index) => {
+      dispatch({ type: TOGGLE_TASK, payload: index });
+    },
+    [dispatch]
+  );
+
+  const deleteTask = useCallback(
+    (index) => {
+      dispatch({ type: DELETE_TASK, payload: index });
+    },
+    [dispatch]
+  );
 
   const filteredTasks = useMemo(() => {
     return state.tasks.filter((task) => {
@@ -70,18 +85,6 @@ export default function App() {
       return 0;
     });
   }, [filteredTasks, state.sort]);
-
-  const addTask = (taskName) => {
-    dispatch({ type: ADD_TASK, payload: taskName });
-  };
-
-  const toggleTask = (index) => {
-    dispatch({ type: TOGGLE_TASK, payload: index });
-  };
-
-  const deleteTask = (index) => {
-    dispatch({ type: DELETE_TASK, payload: index });
-  };
 
   return (
     <div className="container max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg">
