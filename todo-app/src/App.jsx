@@ -1,35 +1,58 @@
-import React, { useReducer, useEffect, useMemo } from "react"; // Asegúrate de importar useReducer
+import React, { useReducer, useEffect, useMemo } from "react";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
 import { taskReducer, initialState } from "./store/reducers/taskReducer";
+import {
+  ADD_TASK,
+  TOGGLE_TASK,
+  DELETE_TASK,
+  SET_FILTER,
+  SET_SORT,
+  CLEAR_FEEDBACK,
+  LOAD_TASKS,
+} from "./store/actions/taskActions";
 
 export default function App() {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   useEffect(() => {
-    const savedTasks = localStorage.getItem("tasks");
-    if (savedTasks) {
-      dispatch({ type: "LOAD_TASKS", payload: JSON.parse(savedTasks) });
+    try {
+      const savedTasks = localStorage.getItem("tasks");
+      if (savedTasks) {
+        dispatch({ type: LOAD_TASKS, payload: JSON.parse(savedTasks) });
+      }
+    } catch (error) {
+      console.error("Error loading tasks from localStorage:", error);
+      dispatch({
+        type: "CLEAR_FEEDBACK",
+        payload: "No se pudieron cargar las tareas. Verifica tu almacenamiento local.",
+      });
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(state.tasks));
+    try {
+      localStorage.setItem("tasks", JSON.stringify(state.tasks));
+    } catch (error) {
+      console.error("Error saving tasks to localStorage:", error);
+      dispatch({
+        type: "CLEAR_FEEDBACK",
+      });
+    }
   }, [state.tasks]);
 
   useEffect(() => {
     if (state.feedbackMessage) {
       const timer = setTimeout(() => {
-        dispatch({ type: "CLEAR_FEEDBACK" });
+        dispatch({ type: CLEAR_FEEDBACK });
       }, 3000);
       return () => clearTimeout(timer);
     }
   }, [state.feedbackMessage]);
 
-  // Aplicar filtros y ordenación
   const filteredTasks = useMemo(() => {
-    return state.tasks.filter(task => {
+    return state.tasks.filter((task) => {
       if (state.filter === "all") return true;
       if (state.filter === "completed") return task.completed;
       if (state.filter === "pending") return !task.completed;
@@ -49,15 +72,15 @@ export default function App() {
   }, [filteredTasks, state.sort]);
 
   const addTask = (taskName) => {
-    dispatch({ type: "ADD_TASK", payload: taskName });
+    dispatch({ type: ADD_TASK, payload: taskName });
   };
 
   const toggleTask = (index) => {
-    dispatch({ type: "TOGGLE_TASK", payload: index });
+    dispatch({ type: TOGGLE_TASK, payload: index });
   };
 
   const deleteTask = (index) => {
-    dispatch({ type: "DELETE_TASK", payload: index });
+    dispatch({ type: DELETE_TASK, payload: index });
   };
 
   return (
@@ -71,9 +94,9 @@ export default function App() {
       <TaskForm addTask={addTask} tasks={state.tasks} />
       <Filters
         filter={state.filter}
-        setFilter={(filter) => dispatch({ type: "SET_FILTER", payload: filter })}
+        setFilter={(filter) => dispatch({ type: SET_FILTER, payload: filter })}
         sort={state.sort}
-        setSort={(sort) => dispatch({ type: "SET_SORT", payload: sort })}
+        setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
       />
       <TaskList
         tasks={sortedTasks}
