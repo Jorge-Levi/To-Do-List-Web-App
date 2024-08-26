@@ -1,25 +1,31 @@
 import React from "react";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import TaskItem from "./TaskItem";
+import "./TaskList.css"; // Archivo CSS para animaciones
 
-function TaskList({ tasks, toggleTask, deleteTask }) {
+export default function TaskList({ tasks, toggleTask, deleteTask }) {
   return (
-    <ul
-      id="task-list"
+    <TransitionGroup
+      component="ul"
       className="mt-4 space-y-2 list-none"
       role="list"
       aria-live="polite"
     >
       {tasks.map((task, index) => (
-        <TaskItem
-          key={index}
-          task={task}
-          index={index}
-          toggleTask={toggleTask}
-          deleteTask={deleteTask}
-        />
+        <CSSTransition
+          key={task.name}
+          timeout={300}
+          classNames="task"
+        >
+          <TaskItem
+            key={index}
+            task={task}
+            index={index}
+            toggleTask={toggleTask}
+            deleteTask={deleteTask}
+          />
+        </CSSTransition>
       ))}
-    </ul>
+    </TransitionGroup>
   );
 }
-
-export default React.memo(TaskList);
