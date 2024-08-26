@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 export default function App() {
   const [tasks, setTasks] = useState(() => {
@@ -16,27 +16,30 @@ export default function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (taskName) => {
-    setTasks([...tasks, { name: taskName, completed: false }]);
-    setFeedbackMessage("Tarea agregada exitosamente"); // Establece un mensaje de éxito
-    clearFeedbackMessage(); // Limpiar el mensaje después de un tiempo
-  };
+  const addTask = useCallback((taskName) => {
+    setTasks((prevTasks) => [
+      ...prevTasks,
+      { name: taskName, completed: false },
+    ]);
+    setFeedbackMessage("Tarea agregada exitosamente");
+    clearFeedbackMessage();
+  }, []);
 
-  const toggleTask = (index) => {
-    const newTasks = tasks.slice();
-    newTasks[index].completed = !newTasks[index].completed;
-    setTasks(newTasks);
-    setFeedbackMessage("Estado de la tarea actualizado"); // Establece un mensaje de éxito
-    clearFeedbackMessage(); // Limpiar el mensaje después de un tiempo
-  };
+  const toggleTask = useCallback((index) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task, i) =>
+        i === index ? { ...task, completed: !task.completed } : task
+      )
+    );
+    setFeedbackMessage("Estado de la tarea actualizado");
+    clearFeedbackMessage();
+  }, []);
 
-  const deleteTask = (index) => {
-    const newTasks = tasks.slice();
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
-    setFeedbackMessage("Tarea eliminada"); // Establece un mensaje de éxito
-    clearFeedbackMessage(); // Limpiar el mensaje después de un tiempo
-  };
+  const deleteTask = useCallback((index) => {
+    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+    setFeedbackMessage("Tarea eliminada");
+    clearFeedbackMessage();
+  }, []);
 
   const clearFeedbackMessage = () => {
     setTimeout(() => {
@@ -44,18 +47,22 @@ export default function App() {
     }, 3000);
   };
 
-  const filteredTasks = tasks.filter((task) =>
-    filter === "all"
-      ? true
-      : filter === "completed"
-      ? task.completed
-      : !task.completed
-  );
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) =>
+      filter === "all"
+        ? true
+        : filter === "completed"
+        ? task.completed
+        : !task.completed
+    );
+  }, [tasks, filter]);
 
-  const sortedTasks = filteredTasks.sort((a, b) => {
-    if (sort === "name") return a.name.localeCompare(b.name);
-    return a.completed - b.completed;
-  });
+  const sortedTasks = useMemo(() => {
+    return filteredTasks.slice().sort((a, b) => {
+      if (sort === "name") return a.name.localeCompare(b.name);
+      return a.completed - b.completed;
+    });
+  }, [filteredTasks, sort]);
 
   return (
     <div className="container max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg">

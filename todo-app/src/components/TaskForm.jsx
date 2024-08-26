@@ -30,7 +30,9 @@ export default function TaskForm({ addTask, tasks }) {
           onChange={(e) => setTaskName(e.target.value)}
           className="flex-grow p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Agregar nueva tarea..."
+          aria-label="Campo para agregar nueva tarea"
         />
+
         <button
           type="submit"
           className="p-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

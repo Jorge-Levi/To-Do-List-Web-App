@@ -20,21 +20,21 @@ export default function TaskItem({ task, index, toggleTask, deleteTask }) {
           aria-label={
             task.completed ? "Marcar como pendiente" : "Marcar como completada"
           }
-          className="mr-2"
+          className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           ✔
         </button>
         <button
           onClick={() => editTask(index)}
           aria-label="Editar tarea"
-          className="mr-2"
+          className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           ✎
         </button>
         <button
           onClick={() => deleteTask(index)}
           aria-label="Eliminar tarea"
-          className="mr-2"
+          className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           🗑
         </button>
