@@ -1,4 +1,5 @@
 // src/store/reducers/taskReducer.js
+
 import {
   ADD_TASK,
   TOGGLE_TASK,
@@ -8,18 +9,11 @@ import {
   CLEAR_FEEDBACK,
   LOAD_TASKS,
 } from "../actions/taskActions";
-import {
-  FILTER_ALL,
-  FILTER_PENDING,
-  FILTER_COMPLETED,
-  SORT_BY_NAME,
-  SORT_BY_STATUS,
-} from "../../constants/taskConstants";
 
 export const initialState = {
   tasks: [],
-  filter: FILTER_ALL,
-  sort: SORT_BY_NAME,
+  filter: "all",
+  sort: "name",
   feedbackMessage: "",
 };
 
@@ -28,14 +22,17 @@ export function taskReducer(state, action) {
     case ADD_TASK:
       return {
         ...state,
-        tasks: [...state.tasks, { name: action.payload, completed: false }],
+        tasks: [
+          ...state.tasks,
+          { id: Date.now(), name: action.payload, completed: false },
+        ],
         feedbackMessage: "Tarea agregada exitosamente",
       };
     case TOGGLE_TASK:
       return {
         ...state,
-        tasks: state.tasks.map((task, index) =>
-          index === action.payload
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload
             ? { ...task, completed: !task.completed }
             : task
         ),
@@ -44,7 +41,7 @@ export function taskReducer(state, action) {
     case DELETE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter((_, index) => index !== action.payload),
+        tasks: state.tasks.filter((task) => task.id !== action.payload),
         feedbackMessage: "Tarea eliminada",
       };
     case SET_FILTER:

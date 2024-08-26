@@ -1,7 +1,9 @@
+// src/components/TaskList.js
+
 import React from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import TaskItem from "./TaskItem";
-import "./TaskList.css"; // Archivo CSS para animaciones
+import "./TaskList.css";
 
 export default function TaskList({ tasks, toggleTask, deleteTask }) {
   return (
@@ -11,16 +13,15 @@ export default function TaskList({ tasks, toggleTask, deleteTask }) {
       role="list"
       aria-live="polite"
     >
-      {tasks.map((task, index) => (
+      {tasks.map((task) => (
         <CSSTransition
-          key={task.name}
+          key={task.id} // Usar el id de la tarea como clave
           timeout={300}
           classNames="task"
         >
           <TaskItem
-            key={index}
+            key={task.id} // Usar el id de la tarea como clave
             task={task}
-            index={index}
             toggleTask={toggleTask}
             deleteTask={deleteTask}
           />

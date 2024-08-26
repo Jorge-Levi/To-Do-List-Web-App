@@ -1,6 +1,8 @@
+// src/components/TaskItem.js
+
 import React from "react";
 
-function TaskItem({ task, index, toggleTask, deleteTask }) {
+function TaskItem({ task, toggleTask, deleteTask }) {
   return (
     <li
       className={`flex justify-between items-center p-3 bg-gray-100 rounded ${
@@ -21,7 +23,7 @@ function TaskItem({ task, index, toggleTask, deleteTask }) {
       </span>
       <div className="space-x-2">
         <button
-          onClick={() => toggleTask(index)}
+          onClick={() => toggleTask(task.id)} // Cambiar a usar task.id
           aria-label={
             task.completed ? "Marcar como pendiente" : "Marcar como completada"
           }
@@ -30,14 +32,7 @@ function TaskItem({ task, index, toggleTask, deleteTask }) {
           ✔
         </button>
         <button
-          onClick={() => editTask(index)}
-          aria-label="Editar tarea"
-          className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          ✎
-        </button>
-        <button
-          onClick={() => deleteTask(index)}
+          onClick={() => deleteTask(task.id)} // Cambiar a usar task.id
           aria-label="Eliminar tarea"
           className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
