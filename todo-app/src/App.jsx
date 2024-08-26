@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useReducer, useEffect, useMemo, useCallback } from "react";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
@@ -81,19 +80,23 @@ export default function App() {
 
   return (
     <div className="container max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg">
-      <h1 className="mb-6 text-4xl font-semibold text-gray-800">To-Do List</h1>
-      <TaskForm addTask={addTask} tasks={state.tasks} />
-      <Filters
-        filter={state.filter}
-        setFilter={(filter) => dispatch({ type: SET_FILTER, payload: filter })}
-        sort={state.sort}
-        setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
-      />
-      <TaskList
-        tasks={sortedTasks}
-        toggleTask={toggleTask}
-        deleteTask={deleteTask}
-      />
+      <header role="banner">
+        <h1 className="mb-6 text-4xl font-semibold text-gray-800">To-Do List</h1>
+      </header>
+      <main role="main">
+        <TaskForm addTask={addTask} tasks={state.tasks} />
+        <Filters
+          filter={state.filter}
+          setFilter={(filter) => dispatch({ type: SET_FILTER, payload: filter })}
+          sort={state.sort}
+          setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
+        />
+        <TaskList
+          tasks={sortedTasks}
+          toggleTask={toggleTask}
+          deleteTask={deleteTask}
+        />
+      </main>
     </div>
   );
 }
