@@ -1,16 +1,21 @@
 import React from "react";
 
-export default function TaskItem({ task, index, toggleTask, deleteTask }) {
+function TaskItem({ task, index, toggleTask, deleteTask }) {
   return (
     <li
       className={`flex justify-between items-center p-3 bg-gray-100 rounded ${
         task.completed ? "bg-green-100" : ""
       }`}
+      aria-label={`Tarea: ${task.name}, ${
+        task.completed ? "completada" : "pendiente"
+      }`}
+      tabIndex="0"
     >
       <span
         className={`flex-grow ${
           task.completed ? "line-through text-gray-500" : ""
         }`}
+        aria-label={`Nombre de la tarea: ${task.name}`}
       >
         {task.name}
       </span>
@@ -42,3 +47,5 @@ export default function TaskItem({ task, index, toggleTask, deleteTask }) {
     </li>
   );
 }
+
+export default React.memo(TaskItem);

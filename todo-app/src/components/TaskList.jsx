@@ -1,7 +1,7 @@
 import React from "react";
 import TaskItem from "./TaskItem";
 
-export default function TaskList({ tasks, toggleTask, deleteTask }) {
+function TaskList({ tasks, toggleTask, deleteTask }) {
   return (
     <ul
       id="task-list"
@@ -21,3 +21,5 @@ export default function TaskList({ tasks, toggleTask, deleteTask }) {
     </ul>
   );
 }
+
+export default React.memo(TaskList);
