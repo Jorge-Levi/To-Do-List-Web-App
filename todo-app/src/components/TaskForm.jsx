@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Button.css";
 
 export default function TaskForm({ addTask, tasks }) {
   const [taskName, setTaskName] = useState("");
@@ -57,7 +58,7 @@ export default function TaskForm({ addTask, tasks }) {
         />
         <button
           type="submit"
-          className="p-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="p-2 text-white bg-blue-500 rounded shadow button-animated hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Agregar
         </button>

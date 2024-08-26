@@ -1,0 +1,9 @@
+/* src/index.css o src/components/Button.css */
+
+.button-animated {
+  transition: transform 150ms ease-in-out;
+}
+
+.button-animated:active {
+  transform: scale(0.95);
+}

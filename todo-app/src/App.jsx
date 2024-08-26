@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect, useMemo, useCallback } from "react";
+import { CSSTransition } from "react-transition-group";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
@@ -19,12 +20,12 @@ import {
   SORT_BY_NAME,
   SORT_BY_STATUS,
 } from "./constants/taskConstants";
+import "./components/Feedback.css";
 
 export default function App() {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   useEffect(() => {
-    // Cargar tareas desde localStorage
     const savedTasks = localStorage.getItem("tasks");
     if (savedTasks) {
       dispatch({ type: LOAD_TASKS, payload: JSON.parse(savedTasks) });
@@ -32,11 +33,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Guardar tareas en localStorage
     localStorage.setItem("tasks", JSON.stringify(state.tasks));
   }, [state.tasks]);
 
-  // Funciones manejadoras
   const addTask = useCallback(
     (taskName) => {
       dispatch({ type: ADD_TASK, payload: taskName });
@@ -57,6 +56,10 @@ export default function App() {
     },
     [dispatch]
   );
+
+  const closeFeedback = useCallback(() => {
+    dispatch({ type: CLEAR_FEEDBACK });
+  }, [dispatch]);
 
   const filteredTasks = useMemo(() => {
     return state.tasks.filter((task) => {
@@ -84,6 +87,23 @@ export default function App() {
         <h1 className="mb-6 text-4xl font-semibold text-gray-800">To-Do List</h1>
       </header>
       <main role="main">
+        <CSSTransition
+          in={!!state.feedbackMessage}
+          timeout={300}
+          classNames="feedback"
+          unmountOnExit
+        >
+          <div className="relative p-2 mb-4 text-green-700 bg-green-100 rounded">
+            <p>{state.feedbackMessage}</p>
+            <button
+              onClick={closeFeedback}
+              className="absolute top-0 right-0 px-2 py-1 text-sm text-green-700"
+              aria-label="Cerrar mensaje de feedback"
+            >
+              ×
+            </button>
+          </div>
+        </CSSTransition>
         <TaskForm addTask={addTask} tasks={state.tasks} />
         <Filters
           filter={state.filter}
