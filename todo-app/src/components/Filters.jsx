@@ -1,45 +1,31 @@
+// src/components/Filters.js
 import React from "react";
+import FilterButton from "./FilterButton";
+import {
+  FILTER_ALL,
+  FILTER_PENDING,
+  FILTER_COMPLETED,
+} from "../constants/taskConstants";
 
 function Filters({ filter, setFilter, sort, setSort }) {
   return (
     <div className="flex items-center justify-between mb-4">
       <div className="space-x-2" aria-label="Filtros de tareas">
-        <button
-          onClick={() => setFilter("all")}
-          className={`px-3 py-1 rounded ${
-            filter === "all"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
-          aria-pressed={filter === "all"}
-          aria-label="Mostrar todas las tareas"
-        >
-          Todas
-        </button>
-        <button
-          onClick={() => setFilter("pending")}
-          className={`px-3 py-1 rounded ${
-            filter === "pending"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
-          aria-pressed={filter === "pending"}
-          aria-label="Mostrar tareas pendientes"
-        >
-          Pendientes
-        </button>
-        <button
-          onClick={() => setFilter("completed")}
-          className={`px-3 py-1 rounded ${
-            filter === "completed"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
-          aria-pressed={filter === "completed"}
-          aria-label="Mostrar tareas completadas"
-        >
-          Completadas
-        </button>
+        <FilterButton
+          label="Todas"
+          isActive={filter === FILTER_ALL}
+          onClick={() => setFilter(FILTER_ALL)}
+        />
+        <FilterButton
+          label="Pendientes"
+          isActive={filter === FILTER_PENDING}
+          onClick={() => setFilter(FILTER_PENDING)}
+        />
+        <FilterButton
+          label="Completadas"
+          isActive={filter === FILTER_COMPLETED}
+          onClick={() => setFilter(FILTER_COMPLETED)}
+        />
       </div>
       <label htmlFor="sort-tasks" className="sr-only">Ordenar tareas</label>
       <select

@@ -1,5 +1,4 @@
 // src/store/reducers/taskReducer.js
-
 import {
   ADD_TASK,
   TOGGLE_TASK,
@@ -9,11 +8,18 @@ import {
   CLEAR_FEEDBACK,
   LOAD_TASKS,
 } from "../actions/taskActions";
+import {
+  FILTER_ALL,
+  FILTER_PENDING,
+  FILTER_COMPLETED,
+  SORT_BY_NAME,
+  SORT_BY_STATUS,
+} from "../../constants/taskConstants";
 
 export const initialState = {
   tasks: [],
-  filter: "all",
-  sort: "name",
+  filter: FILTER_ALL,
+  sort: SORT_BY_NAME,
   feedbackMessage: "",
 };
 
