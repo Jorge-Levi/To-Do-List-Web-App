@@ -4,11 +4,8 @@ import React, {
   useMemo,
   useRef,
   useContext,
+  Suspense,
 } from "react";
-import TaskList from "./components/TaskList";
-import TaskForm from "./components/TaskForm";
-import Filters from "./components/Filters";
-import FeedbackMessage from "./components/FeedbackMessage.jsx"; // Importa FeedbackMessage
 import ThemeContext from "./context/ThemeContext";
 import { taskReducer, initialState } from "./store/reducers/taskReducer";
 import {
@@ -21,38 +18,29 @@ import {
   LOAD_TASKS,
   EDIT_TASK,
 } from "./store/actions/taskActions";
+import FeedbackMessage from "./components/FeedbackMessage";
+
+// Lazy load components
+const TaskList = React.lazy(() => import("./components/TaskList"));
+const TaskForm = React.lazy(() => import("./components/TaskForm"));
+const Filters = React.lazy(() => import("./components/Filters"));
 
 export default function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [state, dispatch] = useReducer(taskReducer, initialState);
-
   const previousTasksRef = useRef(state.tasks);
 
   useEffect(() => {
-    try {
-      const savedTasks = localStorage.getItem("tasks");
-      if (savedTasks) {
-        dispatch({ type: LOAD_TASKS, payload: JSON.parse(savedTasks) });
-      }
-    } catch (error) {
-      console.error("Error loading tasks from localStorage:", error);
-      dispatch({
-        type: CLEAR_FEEDBACK,
-        payload:
-          "No se pudieron cargar las tareas. Verifica tu almacenamiento local.",
-      });
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+      dispatch({ type: LOAD_TASKS, payload: JSON.parse(savedTasks) });
     }
   }, []);
 
   useEffect(() => {
     if (previousTasksRef.current !== state.tasks) {
-      try {
-        localStorage.setItem("tasks", JSON.stringify(state.tasks));
-        previousTasksRef.current = state.tasks;
-      } catch (error) {
-        console.error("Error saving tasks to localStorage:", error);
-        dispatch({ type: CLEAR_FEEDBACK });
-      }
+      localStorage.setItem("tasks", JSON.stringify(state.tasks));
+      previousTasksRef.current = state.tasks;
     }
   }, [state.tasks]);
 
@@ -118,7 +106,13 @@ export default function App() {
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
+            <circle
+              cx="12"
+              cy="12"
+              r="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -147,27 +141,30 @@ export default function App() {
         To-Do List
       </h1>
 
-      {/* Mensajes emergentes de feedback */}
       {state.feedbackMessage && (
         <FeedbackMessage
           message={state.feedbackMessage}
-          type={state.feedbackType || "info"} // Tipo de mensaje (éxito, error, info)
+          type={state.feedbackType || "info"}
         />
       )}
 
-      <TaskForm addTask={addTask} tasks={state.tasks} />
-      <Filters
-        filter={state.filter}
-        setFilter={(filter) => dispatch({ type: SET_FILTER, payload: filter })}
-        sort={state.sort}
-        setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
-      />
-      <TaskList
-        tasks={sortedTasks}
-        toggleTask={toggleTask}
-        deleteTask={deleteTask}
-        editTask={editTask}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TaskForm addTask={addTask} tasks={state.tasks} />
+        <Filters
+          filter={state.filter}
+          setFilter={(filter) =>
+            dispatch({ type: SET_FILTER, payload: filter })
+          }
+          sort={state.sort}
+          setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
+        />
+        <TaskList
+          tasks={sortedTasks}
+          toggleTask={toggleTask}
+          deleteTask={deleteTask}
+          editTask={editTask}
+        />
+      </Suspense>
     </div>
   );
 }
