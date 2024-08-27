@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,forwardRef } from "react";
 
-function TaskItem({ task, toggleTask, deleteTask, editTask }) {
+const TaskItem = forwardRef(({ task, toggleTask, deleteTask, editTask }, ref) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(task.name);
 
@@ -13,6 +13,7 @@ function TaskItem({ task, toggleTask, deleteTask, editTask }) {
 
   return (
     <li
+      ref={ref} // Pasar el ref al elemento li
       className={`flex justify-between items-center p-3 bg-gray-100 rounded ${
         task.completed ? "bg-green-100" : ""
       }`}
@@ -68,9 +69,7 @@ function TaskItem({ task, toggleTask, deleteTask, editTask }) {
             <button
               onClick={() => toggleTask(task.id)}
               aria-label={
-                task.completed
-                  ? "Marcar como pendiente"
-                  : "Marcar como completada"
+                task.completed ? "Marcar como pendiente" : "Marcar como completada"
               }
               className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -88,6 +87,6 @@ function TaskItem({ task, toggleTask, deleteTask, editTask }) {
       </div>
     </li>
   );
-}
+});
 
 export default React.memo(TaskItem);

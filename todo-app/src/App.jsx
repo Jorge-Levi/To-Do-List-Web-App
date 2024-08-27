@@ -11,7 +11,7 @@ import {
   SET_SORT,
   CLEAR_FEEDBACK,
   LOAD_TASKS,
-  EDIT_TASK
+  EDIT_TASK,
 } from "./store/actions/taskActions";
 
 export default function App() {

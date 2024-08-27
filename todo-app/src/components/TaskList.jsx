@@ -1,6 +1,4 @@
-// src/components/TaskList.js
-
-import React from "react";
+import React, { useRef } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import TaskItem from "./TaskItem";
 import "./TaskList.css";
@@ -13,17 +11,26 @@ export default function TaskList({ tasks, toggleTask, deleteTask, editTask }) {
       role="list"
       aria-live="polite"
     >
-      {tasks.map((task) => (
-        <CSSTransition key={task.id} timeout={300} classNames="task">
-          <TaskItem
+      {tasks.map((task) => {
+        const nodeRef = useRef(null);
+
+        return (
+          <CSSTransition
             key={task.id}
-            task={task}
-            toggleTask={toggleTask}
-            deleteTask={deleteTask}
-            editTask={editTask} // Pasar la función de edición
-          />
-        </CSSTransition>
-      ))}
+            timeout={300}
+            classNames="task"
+            nodeRef={nodeRef} // Pasar el ref al CSSTransition
+          >
+            <TaskItem
+              ref={nodeRef} // Pasar el mismo ref al TaskItem
+              task={task}
+              toggleTask={toggleTask}
+              deleteTask={deleteTask}
+              editTask={editTask}
+            />
+          </CSSTransition>
+        );
+      })}
     </TransitionGroup>
   );
 }
