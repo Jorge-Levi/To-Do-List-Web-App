@@ -1,4 +1,10 @@
-import React, { useReducer, useEffect, useMemo, useRef,useContext  } from "react";
+import React, {
+  useReducer,
+  useEffect,
+  useMemo,
+  useRef,
+  useContext,
+} from "react";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
@@ -19,11 +25,9 @@ export default function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
-  // **Nuevo código**: Crear una referencia mutable para el estado anterior de las tareas
   const previousTasksRef = useRef(state.tasks);
 
   useEffect(() => {
-    // Cargar tareas desde localStorage cuando la aplicación se monta
     try {
       const savedTasks = localStorage.getItem("tasks");
       if (savedTasks) {
@@ -39,13 +43,10 @@ export default function App() {
     }
   }, []);
 
-  // **Nuevo código**: Guardar tareas en localStorage solo si han cambiado
   useEffect(() => {
-    // Comparar el estado anterior con el actual
     if (previousTasksRef.current !== state.tasks) {
       try {
         localStorage.setItem("tasks", JSON.stringify(state.tasks));
-        // Actualizar la referencia del estado anterior
         previousTasksRef.current = state.tasks;
       } catch (error) {
         console.error("Error saving tasks to localStorage:", error);
@@ -100,14 +101,50 @@ export default function App() {
   };
 
   return (
-    <div className="container max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg">
-      <h1 className="mb-6 text-4xl font-semibold text-gray-800">To-Do List</h1>
+    <div className="relative max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg dark:bg-gray-800 dark:text-white">
+      {/* Botón de cambio de tema */}
       <button
         onClick={toggleTheme}
-        className="p-2 transition-colors duration-300 bg-gray-200 rounded focus:outline-none dark:bg-gray-600 dark:text-white"
+        className="absolute p-2 text-gray-800 transition duration-500 ease-in-out transform bg-gray-200 rounded-full shadow-lg top-4 right-4 dark:bg-gray-600 dark:text-white hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label="Cambiar tema"
       >
-        {theme === "dark" ? "☀️ Modo Día" : "🌙 Modo Noche"}
+        {theme === "dark" ? (
+          <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+          />
+        </svg>
+        ) : (
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21.17 15.44A9 9 0 018.56 2.83 7 7 0 1018.18 17.01a9.007 9.007 0 012.99-1.57z"
+            />
+          </svg>
+        )}
       </button>
+
+      <h1 className="mb-6 text-4xl font-semibold text-gray-800 dark:text-white">
+        To-Do List
+      </h1>
       {state.feedbackMessage && (
         <div className="p-2 mb-4 text-green-700 bg-green-100 rounded">
           {state.feedbackMessage}
@@ -124,7 +161,7 @@ export default function App() {
         tasks={sortedTasks}
         toggleTask={toggleTask}
         deleteTask={deleteTask}
-        editTask={editTask} //
+        editTask={editTask}
       />
     </div>
   );
