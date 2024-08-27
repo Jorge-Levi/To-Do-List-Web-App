@@ -11,6 +11,7 @@ import {
   SET_SORT,
   CLEAR_FEEDBACK,
   LOAD_TASKS,
+  EDIT_TASK
 } from "./store/actions/taskActions";
 
 export default function App() {
@@ -91,6 +92,10 @@ export default function App() {
     dispatch({ type: DELETE_TASK, payload: id });
   };
 
+  const editTask = (id, newName) => {
+    dispatch({ type: EDIT_TASK, payload: { id, newName } });
+  };
+
   return (
     <div className="container max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg">
       <h1 className="mb-6 text-4xl font-semibold text-gray-800">To-Do List</h1>
@@ -110,6 +115,7 @@ export default function App() {
         tasks={sortedTasks}
         toggleTask={toggleTask}
         deleteTask={deleteTask}
+        editTask={editTask} //
       />
     </div>
   );

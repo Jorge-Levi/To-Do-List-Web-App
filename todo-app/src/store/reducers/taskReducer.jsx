@@ -8,6 +8,7 @@ import {
   SET_SORT,
   CLEAR_FEEDBACK,
   LOAD_TASKS,
+  EDIT_TASK
 } from "../actions/taskActions";
 
 export const initialState = {
@@ -63,6 +64,16 @@ export function taskReducer(state, action) {
       return {
         ...state,
         tasks: action.payload,
+      };
+    case EDIT_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload.id
+            ? { ...task, name: action.payload.newName }
+            : task
+        ),
+        feedbackMessage: "Tarea actualizada con éxito",
       };
     default:
       return state;

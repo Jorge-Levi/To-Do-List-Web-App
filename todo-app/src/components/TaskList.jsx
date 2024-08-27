@@ -5,7 +5,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import TaskItem from "./TaskItem";
 import "./TaskList.css";
 
-export default function TaskList({ tasks, toggleTask, deleteTask }) {
+export default function TaskList({ tasks, toggleTask, deleteTask, editTask }) {
   return (
     <TransitionGroup
       component="ul"
@@ -14,16 +14,13 @@ export default function TaskList({ tasks, toggleTask, deleteTask }) {
       aria-live="polite"
     >
       {tasks.map((task) => (
-        <CSSTransition
-          key={task.id} // Usar el id de la tarea como clave
-          timeout={300}
-          classNames="task"
-        >
+        <CSSTransition key={task.id} timeout={300} classNames="task">
           <TaskItem
-            key={task.id} // Usar el id de la tarea como clave
+            key={task.id}
             task={task}
             toggleTask={toggleTask}
             deleteTask={deleteTask}
+            editTask={editTask} // Pasar la función de edición
           />
         </CSSTransition>
       ))}
