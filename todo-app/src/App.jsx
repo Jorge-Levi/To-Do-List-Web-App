@@ -1,6 +1,4 @@
-// src/App.js
-
-import React, { useReducer, useEffect, useMemo } from "react";
+import React, { useReducer, useEffect, useMemo, useRef } from "react";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
@@ -18,7 +16,11 @@ import {
 export default function App() {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
+  // **Nuevo código**: Crear una referencia mutable para el estado anterior de las tareas
+  const previousTasksRef = useRef(state.tasks);
+
   useEffect(() => {
+    // Cargar tareas desde localStorage cuando la aplicación se monta
     try {
       const savedTasks = localStorage.getItem("tasks");
       if (savedTasks) {
@@ -33,12 +35,18 @@ export default function App() {
     }
   }, []);
 
+  // **Nuevo código**: Guardar tareas en localStorage solo si han cambiado
   useEffect(() => {
-    try {
-      localStorage.setItem("tasks", JSON.stringify(state.tasks));
-    } catch (error) {
-      console.error("Error saving tasks to localStorage:", error);
-      dispatch({ type: CLEAR_FEEDBACK });
+    // Comparar el estado anterior con el actual
+    if (previousTasksRef.current !== state.tasks) {
+      try {
+        localStorage.setItem("tasks", JSON.stringify(state.tasks));
+        // Actualizar la referencia del estado anterior
+        previousTasksRef.current = state.tasks;
+      } catch (error) {
+        console.error("Error saving tasks to localStorage:", error);
+        dispatch({ type: CLEAR_FEEDBACK });
+      }
     }
   }, [state.tasks]);
 
