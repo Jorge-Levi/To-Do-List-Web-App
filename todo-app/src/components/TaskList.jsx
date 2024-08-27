@@ -7,34 +7,37 @@ export default function TaskList({ tasks, toggleTask, deleteTask, editTask }) {
   const refs = useRef(new Map());
 
   return (
-    <TransitionGroup
-      component="ul"
-      className="mt-6 space-y-4 list-none sm:space-y-3"
-      role="list"
-      aria-live="polite"
-    >
-      {tasks.map((task) => {
-        if (!refs.current.has(task.id)) {
-          refs.current.set(task.id, React.createRef());
-        }
+    <section>
+      <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">Lista de Tareas</h2>
+      <TransitionGroup
+        component="ul"
+        className="mt-6 space-y-4 list-none sm:space-y-3"
+        role="list"
+        aria-live="polite"
+      >
+        {tasks.map((task) => {
+          if (!refs.current.has(task.id)) {
+            refs.current.set(task.id, React.createRef());
+          }
 
-        return (
-          <CSSTransition
-            key={task.id}
-            timeout={300}
-            classNames="task"
-            nodeRef={refs.current.get(task.id)}
-          >
-            <TaskItem
-              ref={refs.current.get(task.id)}
-              task={task}
-              toggleTask={toggleTask}
-              deleteTask={deleteTask}
-              editTask={editTask}
-            />
-          </CSSTransition>
-        );
-      })}
-    </TransitionGroup>
+          return (
+            <CSSTransition
+              key={task.id}
+              timeout={300}
+              classNames="task"
+              nodeRef={refs.current.get(task.id)}
+            >
+              <TaskItem
+                ref={refs.current.get(task.id)}
+                task={task}
+                toggleTask={toggleTask}
+                deleteTask={deleteTask}
+                editTask={editTask}
+              />
+            </CSSTransition>
+          );
+        })}
+      </TransitionGroup>
+    </section>
   );
 }

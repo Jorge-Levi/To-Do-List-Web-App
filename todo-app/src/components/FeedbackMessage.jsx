@@ -18,6 +18,8 @@ function FeedbackMessage({ message, type = "info" }) {
     <div
       className={`flex items-center p-4 mb-4 text-sm sm:text-base sm:p-5 rounded-lg shadow-md transform-gpu transition-transform duration-300 ease-in-out ${styles}`}
       role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
     >
       <div className="mr-3">{icon}</div>
       <span>{message}</span>

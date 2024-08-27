@@ -30,6 +30,7 @@ const TaskItem = forwardRef(({ task, toggleTask, deleteTask, editTask }, ref) =>
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
           className="flex-grow p-2 mb-4 mr-2 bg-white border border-gray-300 rounded-md sm:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          aria-label={`Editar nombre de la tarea: ${task.name}`}
         />
       ) : (
         <span

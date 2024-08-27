@@ -83,73 +83,79 @@ export default function App() {
   };
 
   return (
-    <div className="relative max-w-lg p-6 mx-auto transition-colors duration-500 bg-white rounded-lg shadow-lg dark:bg-gray-900 dark:text-gray-100">
-      {/* Botón de cambio de tema */}
-      <button
-        onClick={toggleTheme}
-        className="absolute p-2 text-gray-800 transition duration-500 ease-in-out transform bg-blue-500 rounded-full shadow-lg top-4 right-4 dark:bg-blue-600 dark:text-white hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        aria-label="Cambiar tema"
-      >
-        {theme === "dark" ? (
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
-            />
-          </svg>
-        ) : (
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21.17 15.44A9 9 0 018.56 2.83 7 7 0 1018.18 17.01a9.007 9.007 0 012.99-1.57z"
-            />
-          </svg>
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="description" content="Administra tus tareas fácilmente con nuestra aplicación." />
+      <title>To-Do List - Administra tus Tareas</title>
+      
+      <div className="relative max-w-lg p-6 mx-auto transition-colors duration-500 bg-white rounded-lg shadow-lg dark:bg-gray-900 dark:text-gray-100">
+        <h1 className="mb-6 text-4xl font-semibold text-gray-800 dark:text-white">
+          To-Do List
+        </h1>
+
+        {/* Botón de cambio de tema */}
+        <button
+          onClick={toggleTheme}
+          className="absolute p-2 text-gray-800 transition duration-500 ease-in-out transform bg-blue-500 rounded-full shadow-lg top-4 right-4 dark:bg-blue-600 dark:text-white hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Cambiar tema"
+        >
+          {theme === "dark" ? (
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
+            </svg>
+          ) : (
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21.17 15.44A9 9 0 018.56 2.83 7 7 0 1018.18 17.01a9.007 9.007 0 012.99-1.57z"
+              />
+            </svg>
+          )}
+        </button>
+
+        {state.feedbackMessage && (
+          <FeedbackMessage
+            message={state.feedbackMessage}
+            type={state.feedbackType || "info"}
+          />
         )}
-      </button>
 
-      <h1 className="mb-6 text-4xl font-semibold text-gray-800 dark:text-white">
-        To-Do List
-      </h1>
-
-      {state.feedbackMessage && (
-        <FeedbackMessage
-          message={state.feedbackMessage}
-          type={state.feedbackType || "info"}
-        />
-      )}
-
-      <Suspense fallback={<div>Loading...</div>}>
-        <TaskForm addTask={addTask} tasks={state.tasks} />
-        <Filters
-          filter={state.filter}
-          setFilter={(filter) => dispatch({ type: SET_FILTER, payload: filter })}
-          sort={state.sort}
-          setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
-        />
-        <TaskList
-          tasks={sortedTasks}
-          toggleTask={toggleTask}
-          deleteTask={deleteTask}
-          editTask={editTask}
-        />
-      </Suspense>
-    </div>
+        <Suspense fallback={<div>Cargando...</div>}>
+          <TaskForm addTask={addTask} tasks={state.tasks} />
+          <Filters
+            filter={state.filter}
+            setFilter={(filter) => dispatch({ type: SET_FILTER, payload: filter })}
+            sort={state.sort}
+            setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
+          />
+          <TaskList
+            tasks={sortedTasks}
+            toggleTask={toggleTask}
+            deleteTask={deleteTask}
+            editTask={editTask}
+          />
+        </Suspense>
+      </div>
+    </>
   );
 }

@@ -9,6 +9,7 @@ import {
 function Filters({ filter, setFilter, sort, setSort }) {
   return (
     <div className="flex flex-col mb-6 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 sm:items-center">
+      <h2 className="sr-only">Filtros y Ordenamiento</h2>
       <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2" aria-label="Filtros de tareas">
         <FilterButton
           label="Todas"
