@@ -1,11 +1,4 @@
-import React, {
-  useReducer,
-  useEffect,
-  useMemo,
-  useRef,
-  useContext,
-  Suspense,
-} from "react";
+import React, { useReducer, useEffect, useMemo, useRef, useContext, Suspense } from "react";
 import ThemeContext from "./context/ThemeContext";
 import { taskReducer, initialState } from "./store/reducers/taskReducer";
 import {
@@ -21,9 +14,9 @@ import {
 import FeedbackMessage from "./components/FeedbackMessage";
 
 // Lazy load components
-const TaskList = React.lazy(() => import("./components/TaskList"));
-const TaskForm = React.lazy(() => import("./components/TaskForm"));
-const Filters = React.lazy(() => import("./components/Filters"));
+const TaskList = React.lazy(() => import('./components/TaskList'));
+const TaskForm = React.lazy(() => import('./components/TaskForm'));
+const Filters = React.lazy(() => import('./components/Filters'));
 
 export default function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -106,13 +99,7 @@ export default function App() {
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <circle
-              cx="12"
-              cy="12"
-              r="5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -152,9 +139,7 @@ export default function App() {
         <TaskForm addTask={addTask} tasks={state.tasks} />
         <Filters
           filter={state.filter}
-          setFilter={(filter) =>
-            dispatch({ type: SET_FILTER, payload: filter })
-          }
+          setFilter={(filter) => dispatch({ type: SET_FILTER, payload: filter })}
           sort={state.sort}
           setSort={(sort) => dispatch({ type: SET_SORT, payload: sort })}
         />

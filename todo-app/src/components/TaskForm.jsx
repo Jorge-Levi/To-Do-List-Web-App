@@ -33,9 +33,13 @@ export default function TaskForm({ addTask, tasks }) {
     <form
       onSubmit={handleSubmit}
       className="flex flex-col mb-6 space-y-4 sm:space-y-0 sm:flex-row sm:space-x-4"
+      aria-labelledby="task-form"
     >
       <div className="flex-grow">
         <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+          <label htmlFor="task-input" className="sr-only">
+            Nueva tarea
+          </label>
           <input
             id="task-input"
             type="text"
@@ -47,6 +51,10 @@ export default function TaskForm({ addTask, tasks }) {
                 : "border-gray-300 dark:border-gray-600"
             } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400`}
             placeholder="Agregar nueva tarea..."
+            aria-label="Campo para agregar nueva tarea"
+            aria-required="true"
+            aria-invalid={error.type ? "true" : "false"}
+            aria-describedby="task-error"
           />
           <button
             type="submit"
@@ -58,6 +66,7 @@ export default function TaskForm({ addTask, tasks }) {
         <div className="min-h-[24px] mt-2">
           {error.message && (
             <div
+              id="task-error"
               className="flex items-center text-red-600 dark:text-red-400 animate-fade-in"
               role="alert"
             >
