@@ -15,7 +15,7 @@ const TaskItem = forwardRef(({ task, toggleTask, deleteTask, editTask }, ref) =>
   return (
     <li
       ref={ref}
-      className={`flex justify-between items-center p-4 rounded-lg transition-colors duration-500 ${
+      className={`flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 rounded-lg transition-colors duration-500 ${
         task.completed
           ? "bg-green-100 dark:bg-green-900"
           : "bg-gray-100 dark:bg-gray-800"
@@ -29,11 +29,11 @@ const TaskItem = forwardRef(({ task, toggleTask, deleteTask, editTask }, ref) =>
         <input
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          className="flex-grow p-2 mr-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="flex-grow p-2 mb-4 mr-2 bg-white border border-gray-300 rounded-md sm:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />
       ) : (
         <span
-          className={`flex-grow ${
+          className={`flex-grow mb-4 sm:mb-0 ${
             task.completed
               ? "line-through text-gray-500 dark:text-gray-400"
               : ""
@@ -44,7 +44,7 @@ const TaskItem = forwardRef(({ task, toggleTask, deleteTask, editTask }, ref) =>
         </span>
       )}
 
-      <div className="flex space-x-2">
+      <div className="flex justify-end space-x-2">
         {isEditing ? (
           <>
             <button

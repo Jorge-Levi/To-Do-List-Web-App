@@ -8,28 +8,31 @@ import {
 
 function Filters({ filter, setFilter, sort, setSort }) {
   return (
-    <div className="flex items-center justify-between mb-4">
-      <div className="space-x-2" aria-label="Filtros de tareas">
+    <div className="flex flex-col mb-6 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 sm:items-center">
+      <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2" aria-label="Filtros de tareas">
         <FilterButton
           label="Todas"
           isActive={filter === FILTER_ALL}
           onClick={() => setFilter(FILTER_ALL)}
+          className="px-3 py-1 text-sm sm:px-4 sm:py-2"
         />
         <FilterButton
           label="Pendientes"
           isActive={filter === FILTER_PENDING}
           onClick={() => setFilter(FILTER_PENDING)}
+          className="px-3 py-1 text-sm sm:px-4 sm:py-2"
         />
         <FilterButton
           label="Completadas"
           isActive={filter === FILTER_COMPLETED}
           onClick={() => setFilter(FILTER_COMPLETED)}
+          className="px-3 py-1 text-sm sm:px-4 sm:py-2"
         />
       </div>
-      <label htmlFor="sort-tasks" className="sr-only">
-        Ordenar tareas
-      </label>
-      <div className="relative">
+      <div className="relative mt-4 sm:mt-0">
+        <label htmlFor="sort-tasks" className="sr-only">
+          Ordenar tareas
+        </label>
         <select
           id="sort-tasks"
           value={sort}

@@ -4,18 +4,16 @@ import TaskItem from "./TaskItem";
 import "./TaskList.css";
 
 export default function TaskList({ tasks, toggleTask, deleteTask, editTask }) {
-  // Crear un mapa para almacenar las referencias de cada tarea
   const refs = useRef(new Map());
 
   return (
     <TransitionGroup
       component="ul"
-      className="mt-4 space-y-2 list-none"
+      className="mt-6 space-y-4 list-none sm:space-y-3"
       role="list"
       aria-live="polite"
     >
       {tasks.map((task) => {
-        // Asignar una referencia a cada tarea usando su ID como clave
         if (!refs.current.has(task.id)) {
           refs.current.set(task.id, React.createRef());
         }
