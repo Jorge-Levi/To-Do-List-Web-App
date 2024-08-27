@@ -4,6 +4,9 @@ import TaskItem from "./TaskItem";
 import "./TaskList.css";
 
 export default function TaskList({ tasks, toggleTask, deleteTask, editTask }) {
+  // Crear un mapa para almacenar las referencias de cada tarea
+  const refs = useRef(new Map());
+
   return (
     <TransitionGroup
       component="ul"
@@ -12,17 +15,20 @@ export default function TaskList({ tasks, toggleTask, deleteTask, editTask }) {
       aria-live="polite"
     >
       {tasks.map((task) => {
-        const nodeRef = useRef(null);
+        // Asignar una referencia a cada tarea usando su ID como clave
+        if (!refs.current.has(task.id)) {
+          refs.current.set(task.id, React.createRef());
+        }
 
         return (
           <CSSTransition
             key={task.id}
             timeout={300}
             classNames="task"
-            nodeRef={nodeRef} // Pasar el ref al CSSTransition
+            nodeRef={refs.current.get(task.id)}
           >
             <TaskItem
-              ref={nodeRef} // Pasar el mismo ref al TaskItem
+              ref={refs.current.get(task.id)}
               task={task}
               toggleTask={toggleTask}
               deleteTask={deleteTask}

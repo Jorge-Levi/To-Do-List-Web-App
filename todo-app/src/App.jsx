@@ -8,6 +8,7 @@ import React, {
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
+import FeedbackMessage from "./components/FeedbackMessage.jsx"; // Importa FeedbackMessage
 import ThemeContext from "./context/ThemeContext";
 import { taskReducer, initialState } from "./store/reducers/taskReducer";
 import {
@@ -101,29 +102,29 @@ export default function App() {
   };
 
   return (
-    <div className="relative max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg dark:bg-gray-800 dark:text-white">
+    <div className="relative max-w-lg p-6 mx-auto transition-colors duration-500 bg-white rounded-lg shadow-lg dark:bg-gray-900 dark:text-gray-100">
       {/* Botón de cambio de tema */}
       <button
         onClick={toggleTheme}
-        className="absolute p-2 text-gray-800 transition duration-500 ease-in-out transform bg-gray-200 rounded-full shadow-lg top-4 right-4 dark:bg-gray-600 dark:text-white hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="absolute p-2 text-gray-800 transition duration-500 ease-in-out transform bg-blue-500 rounded-full shadow-lg top-4 right-4 dark:bg-blue-600 dark:text-white hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
         aria-label="Cambiar tema"
       >
         {theme === "dark" ? (
           <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
-          />
-        </svg>
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+            />
+          </svg>
         ) : (
           <svg
             className="w-6 h-6"
@@ -145,11 +146,15 @@ export default function App() {
       <h1 className="mb-6 text-4xl font-semibold text-gray-800 dark:text-white">
         To-Do List
       </h1>
+
+      {/* Mensajes emergentes de feedback */}
       {state.feedbackMessage && (
-        <div className="p-2 mb-4 text-green-700 bg-green-100 rounded">
-          {state.feedbackMessage}
-        </div>
+        <FeedbackMessage
+          message={state.feedbackMessage}
+          type={state.feedbackType || "info"} // Tipo de mensaje (éxito, error, info)
+        />
       )}
+
       <TaskForm addTask={addTask} tasks={state.tasks} />
       <Filters
         filter={state.filter}

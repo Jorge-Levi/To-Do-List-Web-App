@@ -1,5 +1,3 @@
-// src/store/reducers/taskReducer.js
-
 import {
   ADD_TASK,
   TOGGLE_TASK,
@@ -16,6 +14,7 @@ export const initialState = {
   filter: "all",
   sort: "name",
   feedbackMessage: "",
+  feedbackType: "", // Nuevo campo para el tipo de mensaje
 };
 
 export function taskReducer(state, action) {
@@ -28,6 +27,7 @@ export function taskReducer(state, action) {
           { id: Date.now(), name: action.payload, completed: false },
         ],
         feedbackMessage: "Tarea agregada exitosamente",
+        feedbackType: "success", // Tipo de mensaje de éxito
       };
     case TOGGLE_TASK:
       return {
@@ -38,12 +38,14 @@ export function taskReducer(state, action) {
             : task
         ),
         feedbackMessage: "Estado de la tarea actualizado",
+        feedbackType: "info", // Tipo de mensaje de información
       };
     case DELETE_TASK:
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.payload),
         feedbackMessage: "Tarea eliminada",
+        feedbackType: "error", // Tipo de mensaje de error (relacionado con la eliminación)
       };
     case SET_FILTER:
       return {
@@ -59,6 +61,7 @@ export function taskReducer(state, action) {
       return {
         ...state,
         feedbackMessage: "",
+        feedbackType: "", // Limpiar también el tipo de mensaje
       };
     case LOAD_TASKS:
       return {
@@ -74,6 +77,7 @@ export function taskReducer(state, action) {
             : task
         ),
         feedbackMessage: "Tarea actualizada con éxito",
+        feedbackType: "success", // Tipo de mensaje de éxito
       };
     default:
       return state;
