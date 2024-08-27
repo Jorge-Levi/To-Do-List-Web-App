@@ -1,7 +1,8 @@
-import React, { useReducer, useEffect, useMemo, useRef } from "react";
+import React, { useReducer, useEffect, useMemo, useRef,useContext  } from "react";
 import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import Filters from "./components/Filters";
+import ThemeContext from "./context/ThemeContext";
 import { taskReducer, initialState } from "./store/reducers/taskReducer";
 import {
   ADD_TASK,
@@ -15,6 +16,7 @@ import {
 } from "./store/actions/taskActions";
 
 export default function App() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   // **Nuevo código**: Crear una referencia mutable para el estado anterior de las tareas
@@ -31,7 +33,8 @@ export default function App() {
       console.error("Error loading tasks from localStorage:", error);
       dispatch({
         type: CLEAR_FEEDBACK,
-        payload: "No se pudieron cargar las tareas. Verifica tu almacenamiento local.",
+        payload:
+          "No se pudieron cargar las tareas. Verifica tu almacenamiento local.",
       });
     }
   }, []);
@@ -99,6 +102,12 @@ export default function App() {
   return (
     <div className="container max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg">
       <h1 className="mb-6 text-4xl font-semibold text-gray-800">To-Do List</h1>
+      <button
+        onClick={toggleTheme}
+        className="p-2 transition-colors duration-300 bg-gray-200 rounded focus:outline-none dark:bg-gray-600 dark:text-white"
+      >
+        {theme === "dark" ? "☀️ Modo Día" : "🌙 Modo Noche"}
+      </button>
       {state.feedbackMessage && (
         <div className="p-2 mb-4 text-green-700 bg-green-100 rounded">
           {state.feedbackMessage}
